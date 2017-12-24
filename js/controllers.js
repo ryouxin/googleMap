@@ -227,7 +227,7 @@ function populateInfoWindow(marker, infowindow) {
 };
 
 function makeMarkerIcon(iconColor) {
-    var markerImage = new google.maps.MarkerImage('http://maps.google.cn/chart?chst=d_map_spin&chld=1.15|0|' + iconColor +
+    var markerImage = new google.maps.MarkerImage('http://chart.googleapis.cn/chart?chst=d_map_spin&chld=1.15|0|' + iconColor +
         '|40|_|%E2%80%A2',
         new google.maps.Size(21, 34),
         new google.maps.Point(0, 0),
