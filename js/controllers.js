@@ -30,7 +30,6 @@ function showListings() {
             animation: google.maps.Animation.DROP,
             id: i,
             icon: defaultIcon
-
         });
         markers.push(marker);
         bounds.extend(marker.position);
@@ -54,7 +53,6 @@ function HideListings() {
     }
 };
 
-
 function populateInfoWindow(marker, infowindow) {
 
     if (infowindow.marker != marker) {
@@ -71,7 +69,7 @@ function populateInfoWindow(marker, infowindow) {
             success: function(response) {
                 console.log(response);
                 console.log(response.abstract);
-                infowindow.setContent(`<div>${marker.title}<br>${response.abstract}</div>`);
+                infowindow.setContent(`<div><span style="font-weight:bold">${marker.title}</span><br>${response.abstract}</div>`);
             },
             error: function(err) {
                 console.log(err);
@@ -84,8 +82,6 @@ function populateInfoWindow(marker, infowindow) {
         infowindow.addListener('closeclick', function() {
             infowindow.setMarker(null);
         });
-
-
 
         //获取街景图片
         // var streetViewService = new google.maps.StreetViewService();
