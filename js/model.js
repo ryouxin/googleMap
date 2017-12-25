@@ -1,50 +1,50 @@
 var locations = [{
-        title: 'Park Ave Penthouse',
+        title: '星海广场',
         location: {
-            lat: 40.7713024,
-            lng: -73.9632393
+            lat: 38.8812423,
+            lng: 121.5830108
         }
     },
     {
-        title: 'Chelsea Loft',
+        title: '老虎滩海洋公园',
         location: {
-            lat: 40.7444883,
-            lng: -73.9949465
+            lat: 38.877848,
+            lng: 121.676866
         }
     },
     {
-        title: 'Union Square Open Floor Plan',
+        title: '棒棰岛宾馆',
         location: {
-            lat: 40.7347062,
-            lng: -73.9895759
+            lat: 38.8890004,
+            lng: 121.7044535
         }
     },
     {
-        title: 'East Village Hip Studio',
+        title: '圣亚海洋世界',
         location: {
-            lat: 40.7281777,
-            lng: -73.984377
+            lat: 38.878401,
+            lng: 121.570719
         }
     },
     {
-        title: 'TriBeCa Artsy Bachelor Pad',
+        title: '大连森林动物园',
         location: {
-            lat: 40.7195264,
-            lng: -74.0089934
+            lat: 38.880027,
+            lng: 121.61316
         }
     },
     {
-        title: 'Chinatown Homey Space',
+        title: '大连外国语大学',
         location: {
-            lat: 40.7180628,
-            lng: -73.9961237
+            lat: 38.809188,
+            lng: 121.310176
         }
     },
     {
-        title: 'Times Square',
+        title: '东北财经大学',
         location: {
-            lat: 40.758895,
-            lng: -73.985131
+            lat: 38.876483,
+            lng: 121.549925
         }
     }
 ];

@@ -2,7 +2,6 @@ var map;
 var markers = [];
 
 function initMap() {
-
     map = new google.maps.Map(document.getElementById('map'), {
         center: {
             lat: 39.9136376,
@@ -12,10 +11,7 @@ function initMap() {
         styles: mapStyle,
         mapTypeControl: false,
     });
-    // TODO: use a constructor to create a new map JS object. You can use the coordinates
-    // we used, 40.7413549, -73.99802439999996 or your own!
     showListings();
-    // document.getElementById('show-listings').addEventListener('click', showListings);
     document.getElementById('hide-listings').addEventListener('click', HideListings);
 };
 
@@ -64,27 +60,25 @@ function populateInfoWindow(marker, infowindow) {
     if (infowindow.marker != marker) {
         infowindow.setContent('');
         infowindow.marker = marker;
+        console.log(marker.title);
         //mark详细信息
         let markerDesc = '';
-        let _vikiRequeryUrl = `https://en.wikipedia.org/w/api.php?action=query&titles=${marker.title}&prop=revisions&rvprop=content&format=json`;
+        let _vikiRequeryUrl = `http://baike.baidu.com/api/openapi/BaikeLemmaCardApi?scope=103&format=json&appid=379020&bk_key=${marker.title}&bk_length=600`;
         $.ajax({
             url: _vikiRequeryUrl,
-            // data: queryData,
-            dataType: 'json',
+            dataType: 'jsonp',
             type: 'POST',
-            headers: {
-                'Api-User-Agent': 'MyCoolTool/1.1 (http://aamen.jian-yin.com/; chen.yes.man@gmail.com) BasedOnSuperLib/1.4'
-            },
             success: function(response) {
-                // markerDesc=
                 console.log(response);
+                console.log(response.abstract);
+                infowindow.setContent(`<div>${marker.title}<br>${response.abstract}</div>`);
             },
             error: function(err) {
                 console.log(err);
             }
         });
         console.log(_vikiRequeryUrl);
-        infowindow.setContent('<div>' + marker.title + '<br>position: ' + markerDesc + '</div>');
+
         infowindow.open(map, marker);
         //
         infowindow.addListener('closeclick', function() {
@@ -124,6 +118,7 @@ function populateInfoWindow(marker, infowindow) {
         //
         // streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
         // infowindow.open(map, marker);
+        //
     }
 };
 
