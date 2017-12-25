@@ -2,130 +2,7 @@ var map;
 var markers = [];
 
 function initMap() {
-    let mapStyle = [{
-            elementType: 'geometry',
-            stylers: [{
-                color: '#242f3e'
-            }]
-        },
-        {
-            elementType: 'labels.text.stroke',
-            stylers: [{
-                color: '#242f3e'
-            }]
-        },
-        {
-            elementType: 'labels.text.fill',
-            stylers: [{
-                color: '#746855'
-            }]
-        },
-        {
-            featureType: 'administrative.locality',
-            elementType: 'labels.text.fill',
-            stylers: [{
-                color: '#d59563'
-            }]
-        },
-        {
-            featureType: 'poi',
-            elementType: 'labels.text.fill',
-            stylers: [{
-                color: '#d59563'
-            }]
-        },
-        {
-            featureType: 'poi.park',
-            elementType: 'geometry',
-            stylers: [{
-                color: '#263c3f'
-            }]
-        },
-        {
-            featureType: 'poi.park',
-            elementType: 'labels.text.fill',
-            stylers: [{
-                color: '#6b9a76'
-            }]
-        },
-        {
-            featureType: 'road',
-            elementType: 'geometry',
-            stylers: [{
-                color: '#38414e'
-            }]
-        },
-        {
-            featureType: 'road',
-            elementType: 'geometry.stroke',
-            stylers: [{
-                color: '#212a37'
-            }]
-        },
-        {
-            featureType: 'road',
-            elementType: 'labels.text.fill',
-            stylers: [{
-                color: '#9ca5b3'
-            }]
-        },
-        {
-            featureType: 'road.highway',
-            elementType: 'geometry',
-            stylers: [{
-                color: '#746855'
-            }]
-        },
-        {
-            featureType: 'road.highway',
-            elementType: 'geometry.stroke',
-            stylers: [{
-                color: '#1f2835'
-            }]
-        },
-        {
-            featureType: 'road.highway',
-            elementType: 'labels.text.fill',
-            stylers: [{
-                color: '#f3d19c'
-            }]
-        },
-        {
-            featureType: 'transit',
-            elementType: 'geometry',
-            stylers: [{
-                color: '#2f3948'
-            }]
-        },
-        {
-            featureType: 'transit.station',
-            elementType: 'labels.text.fill',
-            stylers: [{
-                color: '#d59563'
-            }]
-        },
-        {
-            featureType: 'water',
-            elementType: 'geometry',
-            stylers: [{
-                color: '#17263c'
-            }]
-        },
-        {
-            featureType: 'water',
-            elementType: 'labels.text.fill',
-            stylers: [{
-                color: '#515c6d'
-            }]
-        },
-        {
-            featureType: 'water',
-            elementType: 'labels.text.stroke',
-            stylers: [{
-                color: '#17263c'
-            }]
-        }
-    ];
+
     map = new google.maps.Map(document.getElementById('map'), {
         center: {
             lat: 39.9136376,
@@ -137,8 +14,8 @@ function initMap() {
     });
     // TODO: use a constructor to create a new map JS object. You can use the coordinates
     // we used, 40.7413549, -73.99802439999996 or your own!
-
-    document.getElementById('show-listings').addEventListener('click', showListings);
+    showListings();
+    // document.getElementById('show-listings').addEventListener('click', showListings);
     document.getElementById('hide-listings').addEventListener('click', HideListings);
 };
 
@@ -160,7 +37,6 @@ function showListings() {
 
         });
         markers.push(marker);
-        console.log(markers);
         bounds.extend(marker.position);
         marker.addListener('click', function() {
             populateInfoWindow(this, largeInfowindow);
@@ -184,45 +60,70 @@ function HideListings() {
 
 
 function populateInfoWindow(marker, infowindow) {
-    if (infowindow.marker != marker) {
 
-        // infowindow.setContent('<div>' + marker.title + '<br>position: ' + marker.position + '</div>');
+    if (infowindow.marker != marker) {
         infowindow.setContent('');
         infowindow.marker = marker;
-        // infowindow.open(map, marker);
+        //mark详细信息
+        let markerDesc = '';
+        let _vikiRequeryUrl = `https://en.wikipedia.org/w/api.php?action=query&titles=${marker.title}&prop=revisions&rvprop=content&format=json`;
+        $.ajax({
+            url: _vikiRequeryUrl,
+            // data: queryData,
+            dataType: 'json',
+            type: 'POST',
+            headers: {
+                'Api-User-Agent': 'MyCoolTool/1.1 (http://aamen.jian-yin.com/; chen.yes.man@gmail.com) BasedOnSuperLib/1.4'
+            },
+            success: function(response) {
+                // markerDesc=
+                console.log(response);
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+        console.log(_vikiRequeryUrl);
+        infowindow.setContent('<div>' + marker.title + '<br>position: ' + markerDesc + '</div>');
+        infowindow.open(map, marker);
+        //
         infowindow.addListener('closeclick', function() {
             infowindow.setMarker(null);
         });
-        var streetViewService = new google.maps.StreetViewService();
-        let radius = 50;
 
-        function getStreetView(data, status) {
-            if (status == google.maps.StreetViewStatus.OK) {
-                console.log('ok');
-                var nearStreetViewLocation = data.location.latLng;
-                var heading = google.maps.geometry.spherical.computeHeading(
-                    nearStreetViewLocation, marker.position);
-                console.log(heading);
-                console.log(nearStreetViewLocation);
-                infowindow.setContent('<div>' + marker.title + '</div><div id="pano">111111111111111111111111</div>');
-                var panoramaOptions = {
-                    position: nearStreetViewLocation,
-                    pov: {
-                        heading: heading,
-                        pitch: 30
-                    }
-                };
-                var panorama = new google.maps.StreetViewPanorama(
-                    document.getElementById('pano'), panoramaOptions);
-            } else {
-                infowindow.setContent('<div>' + marker.title + '</div>' +
-                    '<div>No Street View Found</div>');
-            }
-        };
-        console.log(marker.position);
 
-        streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
-        infowindow.open(map, marker);
+
+        //获取街景图片
+        // var streetViewService = new google.maps.StreetViewService();
+        // let radius = 50;
+        //
+        // function getStreetView(data, status) {
+        //     if (status == google.maps.StreetViewStatus.OK) {
+        //         console.log('ok');
+        //         var nearStreetViewLocation = data.location.latLng;
+        //         var heading = google.maps.geometry.spherical.computeHeading(
+        //             nearStreetViewLocation, marker.position);
+        //         console.log(heading);
+        //         console.log(nearStreetViewLocation);
+        //         infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
+        //         var panoramaOptions = {
+        //             position: nearStreetViewLocation,
+        //             pov: {
+        //                 heading: heading,
+        //                 pitch: 30
+        //             }
+        //         };
+        //         var panorama = new google.maps.StreetViewPanorama(
+        //             document.getElementById('pano'), panoramaOptions);
+        //     } else {
+        //         infowindow.setContent('<div>' + marker.title + '</div>' +
+        //             '<div>No Street View Found</div>');
+        //     }
+        // };
+        // console.log(marker.position);
+        //
+        // streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+        // infowindow.open(map, marker);
     }
 };
 
