@@ -5,8 +5,9 @@
 	<title>map demo</title>
 	<script src="/js/lib/knockout-3.2.0.js"></script>
 	<script src="/js/lib/jquery-3.2.1.min.js"></script>
-	<script src="/js/controllers.js?v=1.1"></script>
 	<script src="/js/model.js"></script>
+	<script src="/js/init.js"></script>
+	<script src="/js/controllers.js"></script>
 
 
 	<link rel="stylesheet" href="/css/style.css">
@@ -18,13 +19,21 @@
 			<div class="finder-box">
 				<div class="finder-title">
 					<h3 style="margin:0px">Finder</h3>
+					<input type='text' data-bind="value:positionName, valueUpdate: 'afterkeydown'"></input>
+
+					<input type='button' value='search' data-bind='click:findPosition'></input>
+				</div>
+				<div class="fileList-box">
+					<ul class="fileList" data-bind="foreach:locations">
+						<li><span data-bind="text:title,click:function(){viewModel.selectPosition(title)}"></span></li>
+					</ul>
 				</div>
 			</div>
-			<div class="left-box">
+			<!-- <div class="left-box">
 				<div class='goBackIcon'>
-					<img src='img/left.png' style="width:100%;height:60%;padding-top:15px">
+					<img src='img/left.png' style="width:60%;height:30%;padding-top:10px;padding-left:5px" data-bind='click:hideListBox'>
 				</div>
-			</div>
+			</div> -->
 			<!-- <div><input id="show-listings" type="button" value="Show Listings">
 				<input id="hide-listings" type="button" value="Hide Listings"></div> -->
 		</div>
@@ -32,6 +41,44 @@
 	</div>
 
 	<script async defer src="http://maps.google.cn/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyB9-Mm80LmdjNcFdgT-mN-SHxNJqtJSf9I&v=3&callback=initMap">
+	</script>
+
+
+	<script>
+		let viewModel = {
+			locations: locations,
+			positionName: ko.observable("edit me"),
+			// positionName: '',
+			// hideListBox: function() {
+			// 	let _box = document.getElementsByClassName('finder-box');
+			// 	console.log(_box[0]);
+			// 	_box[0].style.display = 'none';
+			// },
+			findPosition: function() {
+				let _positionName = this.positionName();
+				console.log(_positionName);
+				for (let i of this.locations) {
+					if (i.title == _positionName) {
+						HideListings(i.title);
+					};
+
+				}
+			},
+			selectPosition: function(title) {
+				showListings();
+				HideListings(title);
+			}
+		}
+		ko.applyBindings(viewModel);
+
+		function HideListings(i) {
+			console.log(markers);
+			for (var a of markers) {
+				if (i != a.title) {
+					a.setMap(null);
+				}
+			}
+		};
 	</script>
 </body>
 
