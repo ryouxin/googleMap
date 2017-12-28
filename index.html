@@ -15,54 +15,89 @@
 
 <body>
 	<div class='container'>
+		<!-- <div class='option-box' data-bind="visible: displayFilter()"> -->
 		<div class='option-box'>
 			<div class="finder-box">
-				<div class="finder-title">
-					<h3 style="margin:0px">Finder</h3>
-					<input type='text' data-bind="value:positionName, valueUpdate: 'afterkeydown'"></input>
+				<!-- <div class="finder-box"> -->
+				<div class="finder-title ">
+					<h3 style="margin:0px ">Finder</h3>
+					<input type='text' data-bind="value:positionName, valueUpdate: 'afterkeydown' "></input>
 
 					<input type='button' value='search' data-bind='click:findPosition'></input>
 				</div>
-				<div class="fileList-box">
-					<ul class="fileList" data-bind="foreach:locations">
-						<li><span data-bind="text:title,click:function(){viewModel.selectPosition(title)}"></span></li>
+				<div class="fileList-box ">
+					<ul class="fileList " data-bind="foreach:locations ">
+						<li><span data-bind="text:title,click:function(){viewModel.selectPosition(title)} "></span></li>
 					</ul>
 				</div>
 			</div>
-			<!-- <div class="left-box">
+			<div class="left-box " style='float:left'>
 				<div class='goBackIcon'>
-					<img src='img/left.png' style="width:60%;height:30%;padding-top:10px;padding-left:5px" data-bind='click:hideListBox'>
+					<img src='img/left.png' style="width:60%;height:30%;padding-top:10px;padding-left:5px " data-bind="visible: displayFilter() ">
+					<img src='img/right.png' style="width:60%;height:30%;padding-top:10px;padding-left:5px " data-bind="visible: !displayFilter() ">
 				</div>
-			</div> -->
-			<!-- <div><input id="show-listings" type="button" value="Show Listings">
-				<input id="hide-listings" type="button" value="Hide Listings"></div> -->
+			</div>
+
+			<!-- <div><input id="show-listings " type="button " value="Show Listings ">
+				<input id="hide-listings " type="button " value="Hide Listings "></div> -->
 		</div>
-		<div id='map'></div>
+
+		<div class="map-container ">
+			<div id="map" data-bind="click: closeFilter "></div>
+		</div>
+
 	</div>
 
-	<script async defer src="http://maps.google.cn/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyB9-Mm80LmdjNcFdgT-mN-SHxNJqtJSf9I&v=3&callback=initMap">
+	<script async defer src="http://maps.google.cn/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyB9-Mm80LmdjNcFdgT-mN-SHxNJqtJSf9I&v=3&callback=initMap " onerror="mapErrorHandler() ">
 	</script>
 
 
 	<script>
 		let viewModel = {
-			locations: locations,
-			positionName: ko.observable("edit me"),
+			locations: ko.observable(locations),
+			positionName: ko.observable("edit me "),
+			displayFilter: ko.observable(false),
 			// positionName: '',
 			// hideListBox: function() {
 			// 	let _box = document.getElementsByClassName('finder-box');
 			// 	console.log(_box[0]);
 			// 	_box[0].style.display = 'none';
 			// },
+			// toggleFilter: function() {
+			// 	console.log(this.displayFilter());
+			// 	this.displayFilter(!this.displayFilter());
+			// }.
+			closeFilter() {
+				this.displayFilter(false);
+			},
 			findPosition: function() {
 				let _positionName = this.positionName();
-				console.log(_positionName);
-				for (let i of this.locations) {
-					if (i.title == _positionName) {
-						HideListings(i.title);
-					};
-
+				this.locations(locations);
+				// locations = ko.observable(locations)；
+				showListings();
+				// for (let i of locations) {
+				// 	if (i.title == _positionName) {
+				// 		HideListings(i.title);
+				// 	};
+				//
+				// }
+				if (_positionName.trim().length > 0) { // 如果输入框中不为空
+					var filteredList = this.locations().filter(function(item) {
+						// ...
+						if (item.title == _positionName) {
+							return item;
+						}
+					})
+					this.locations(filteredList); // 更新 this.locations 数组
+					for (let i of this.locations()) {
+						if (i.title == _positionName) {
+							HideListings(i.title);
+						};
+					}
+				} else {
+					this.locations(locations);
 				}
+
 			},
 			selectPosition: function(title) {
 				showListings();
@@ -72,13 +107,19 @@
 		ko.applyBindings(viewModel);
 
 		function HideListings(i) {
-			console.log(markers);
 			for (var a of markers) {
 				if (i != a.title) {
 					a.setMap(null);
 				}
 			}
 		};
+		var mapErrorHandler = function() {
+			alert('地图载入错误 请尝试刷新');
+		}
+
+		function HideListPositions(i) {
+
+		}
 	</script>
 </body>
 
