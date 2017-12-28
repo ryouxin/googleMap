@@ -15,10 +15,10 @@
 
 <body>
 	<div class='container'>
-		<!-- <div class='option-box' data-bind="visible: displayFilter()"> -->
-		<div class='option-box'>
+		<div class='option-box' data-bind="visible: displayFilter()">
+			<!-- <div class='option-box'> -->
 			<div class="finder-box">
-				<!-- <div class="finder-box"> -->
+				<!-- <div class="finder-box" data-bind="visible: displayFilter()"> -->
 				<div class="finder-title ">
 					<h3 style="margin:0px ">Finder</h3>
 					<input type='text' data-bind="value:positionName, valueUpdate: 'afterkeydown' "></input>
@@ -31,20 +31,18 @@
 					</ul>
 				</div>
 			</div>
-			<div class="left-box " style='float:left'>
-				<div class='goBackIcon'>
-					<img src='img/left.png' style="width:60%;height:30%;padding-top:10px;padding-left:5px " data-bind="visible: displayFilter() ">
-					<img src='img/right.png' style="width:60%;height:30%;padding-top:10px;padding-left:5px " data-bind="visible: !displayFilter() ">
-				</div>
-			</div>
-
 			<!-- <div><input id="show-listings " type="button " value="Show Listings ">
 				<input id="hide-listings " type="button " value="Hide Listings "></div> -->
 		</div>
-
-		<div class="map-container ">
-			<div id="map" data-bind="click: closeFilter "></div>
+		<div class="left-box " data-bind="click: toggleFilter">
+			<div class='goBackIcon'>
+				<img src='img/left.png' style="width:60%;height:30%;padding-top:10px;padding-left:5px " data-bind="visible: displayFilter() ">
+				<img src='img/right.png' style="width:60%;height:30%;padding-top:10px;padding-left:5px " data-bind="visible: !displayFilter() ">
+			</div>
 		</div>
+		<!-- <div class="map-container "> -->
+		<div id="map" data-bind="click: closeFilter "></div>
+		<!-- </div> -->
 
 	</div>
 
@@ -56,17 +54,17 @@
 		let viewModel = {
 			locations: ko.observable(locations),
 			positionName: ko.observable("edit me "),
-			displayFilter: ko.observable(false),
+			displayFilter: ko.observable(true),
 			// positionName: '',
 			// hideListBox: function() {
 			// 	let _box = document.getElementsByClassName('finder-box');
 			// 	console.log(_box[0]);
 			// 	_box[0].style.display = 'none';
 			// },
-			// toggleFilter: function() {
-			// 	console.log(this.displayFilter());
-			// 	this.displayFilter(!this.displayFilter());
-			// }.
+			toggleFilter: function() {
+				console.log(this.displayFilter());
+				this.displayFilter(!this.displayFilter());
+			},
 			closeFilter() {
 				this.displayFilter(false);
 			},
