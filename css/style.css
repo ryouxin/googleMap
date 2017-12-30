@@ -8,11 +8,13 @@ body {
 #map {
 	height: 100%;
 	bottom: 0px;
-	position: absolute;
-	left:0px;
-	width: 100%;
-	z-index: -1;
+	position: relative;
+	/*left:240px;*/
+	width: auto;
+	/*z-index: -1;*/
+	/*z-index: 1;*/
 	right: 0px;
+
 }
 
 #pano {
@@ -30,7 +32,7 @@ body {
 	padding: 0px;
 	text-align: left;
 	width: 200px;
-	z-index: 10;
+	z-index: 999999999999999999;
 	margin:0px;
 	float: left;
 
@@ -43,7 +45,7 @@ body {
 		/*width: 85%;*/
 		width: 100%;
 		float: left;
-		z-index: 999;
+		z-index: 999999999999999999;
 }
 .left-box,
 .right-box{
@@ -55,7 +57,7 @@ body {
 	width: 5%;
 	/*float: right;*/
 	float: left;
-	z-index: 999;
+	z-index: 999999999999999999;
 }
 .finder-title{
 	text-align: center;
@@ -85,5 +87,6 @@ body {
 	width: 100%;
 	left: 0px;
 	height: 100%;
+	/*z-index: -20;*/
 
 }
