@@ -18,7 +18,7 @@ body {
 	/*z-index: 1;*/
 	right: 0px;
 	overflow: visible;
-
+	/*float: right;*/
 }
 
 #pano {
@@ -26,6 +26,7 @@ body {
 	height: 200px;
 }
 .container{
+	overflow: hidden;
 	/*float: left;*/
 	/*width: 25%;*/
 	z-index: 999999999999999999;
