@@ -15,15 +15,15 @@
 
 <body>
 	<div class='container'>
-		<div class='option-box' data-bind="visible: displayFilter()">
+		<div class='option-box' data-bind="visible: displayFilter() ">
 			<!-- <div class='option-box'> -->
 			<div class="finder-box">
 				<!-- <div class="finder-box" data-bind="visible: displayFilter()"> -->
 				<div class="finder-title ">
 					<h3 style="margin:0px ">Finder</h3>
-					<input type='text' data-bind="value:positionName, valueUpdate: 'afterkeydown' "></input>
+					<input type='text' data-bind="value:positionName, valueUpdate: 'afterkeydown' " />
 
-					<input type='button' value='search' data-bind='click:findPosition'></input>
+					<input type='button' value='search' data-bind='click:findPosition' />
 				</div>
 				<div class="fileList-box ">
 					<ul class="fileList " data-bind="foreach:locations ">
@@ -41,7 +41,7 @@
 			</div>
 		</div>
 
-		<div id="map" data-bind="click: closeFilter "></div>
+		<div id="map" data-bind="click: closeFilter,style:{width:sideMapWidth} "></div>
 	</div>
 
 	<!-- <div class="map-container ">
@@ -59,8 +59,9 @@
 	<script>
 		let viewModel = {
 			locations: ko.observable(locations),
-			positionName: ko.observable("edit me "),
-			displayFilter: ko.observable(true),
+			positionName: ko.observable(""),
+			displayFilter: ko.observable(false),
+			sideMapWidth: ko.observable(''),
 			// positionName: '',
 			// hideListBox: function() {
 			// 	let _box = document.getElementsByClassName('finder-box');
@@ -70,9 +71,13 @@
 			toggleFilter: function() {
 				console.log(this.displayFilter());
 				this.displayFilter(!this.displayFilter());
+				// this.sideMapWidth('99%');
 			},
 			closeFilter() {
+				console.log(1);
 				this.displayFilter(false);
+				// this.sideMapWidth('100%');
+
 			},
 			findPosition: function() {
 				let _positionName = this.positionName();
