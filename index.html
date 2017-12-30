@@ -40,12 +40,17 @@
 				<img src='img/right.png' style="width:60%;height:30%;padding-top:10px;padding-left:5px " data-bind="visible: !displayFilter() ">
 			</div>
 		</div>
-		<!-- <div class="map-container "> -->
 
-		<!-- </div> -->
+		<div id="map" data-bind="click: closeFilter "></div>
+	</div>
+
+	<!-- <div class="map-container ">
+
+	</div> -->
+
+	<div>
 
 	</div>
-	<div id="map" data-bind="click: closeFilter "></div>
 
 	<script async defer src="http://maps.google.cn/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyB9-Mm80LmdjNcFdgT-mN-SHxNJqtJSf9I&v=3&callback=initMap " onerror="mapErrorHandler() ">
 	</script>
